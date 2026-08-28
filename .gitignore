@@ -1,0 +1,36 @@
+# --- Python -----------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.tox/
+.coverage
+htmlcov/
+
+# --- SageMath ---------------------------------------------------------
+# `sage foo.sage` preparses to a foo.sage.py sitting next to the original.
+*.sage.py
+.sage/
+*.sobj
+*.spyx.c
+*.spyx.so
+
+# --- Jupyter ----------------------------------------------------------
+.ipynb_checkpoints/
+
+# --- Editors / OS -----------------------------------------------------
+*~
+*.sw[op]
+.DS_Store
+
+# Deliberately NOT ignored: djames-py/kat/*.json (test vectors) and
+# djames-py/djames/fieldpoly.json (cached field polynomials).  Both are
+# checked-in artifacts, not build output.

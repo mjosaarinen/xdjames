@@ -1,0 +1,508 @@
+[
+ {
+  "field_poly_support": [
+   0
+  ],
+  "name": "toy-d-james-q13",
+  "params": {
+   "D": 14,
+   "a": 4,
+   "d": 1,
+   "m": 14,
+   "monomials": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "n": 18,
+   "ny": 16,
+   "q": 13,
+   "r": 1
+  },
+  "pk_len": 2984,
+  "pk_sha3_256": "4793cacf3d942ba620882dd7fbd12f9a0fc511173e1b0e277d1263462ca08764",
+  "scheme": "d-james",
+  "seed": "1269e536e5dff2cfb99af863b9603e9124b84750c614c9e6c7a32aa1aa535285",
+  "sig_bits": 67,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "bf958f459c08152505"
+   },
+   {
+    "msg": "616263",
+    "sig": "e9fc154c5707a84104"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "95e1849df16c0ce005"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "e54b34967f033cfa03"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0,
+   2,
+   3,
+   7
+  ],
+  "name": "toy-d-james-q2",
+  "params": {
+   "D": 5,
+   "a": 6,
+   "d": 2,
+   "m": 26,
+   "monomials": [
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ]
+   ],
+   "n": 32,
+   "ny": 48,
+   "q": 2,
+   "r": 2
+  },
+  "pk_len": 6708,
+  "pk_sha3_256": "d4ba2bab13fe5ff6b4f683fe6f3f44d264b31f73d6de756e6a451595b4b4dc4f",
+  "scheme": "d-james",
+  "seed": "ca073e1b8bbff7f190af19dd126a6aed45e45d2a24bf2b0a3affda9fc00cb3aa",
+  "sig_bits": 32,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "e5f556e5"
+   },
+   {
+    "msg": "616263",
+    "sig": "efb30040"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "e0242d13"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "6980cbb4"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0,
+   1
+  ],
+  "name": "toy-d-james-q23",
+  "params": {
+   "D": 24,
+   "a": 4,
+   "d": 1,
+   "m": 12,
+   "monomials": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "n": 16,
+   "ny": 14,
+   "q": 23,
+   "r": 1
+  },
+  "pk_len": 2469,
+  "pk_sha3_256": "21153bcf04a2c4114f9aafa950c54b34201da5544f994d6200244559508b7847",
+  "scheme": "d-james",
+  "seed": "79ea6d479aadcd4b61273d5d3c85b1e7e51285f95f5e7c08f7cb7f9d2e3ecf88",
+  "sig_bits": 73,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "56f9e7ac661219b55f00"
+   },
+   {
+    "msg": "616263",
+    "sig": "a8722d8a6cd9fa977d00"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "191fd7d3f80a99c50c00"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "26b539e66764d59c1800"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0,
+   1,
+   3,
+   4
+  ],
+  "name": "toy-d-james-q4",
+  "params": {
+   "D": 17,
+   "a": 5,
+   "d": 2,
+   "m": 19,
+   "monomials": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     2
+    ]
+   ],
+   "n": 24,
+   "ny": 24,
+   "q": 4,
+   "r": 2
+  },
+  "pk_len": 4161,
+  "pk_sha3_256": "b1eff829b39de935dc265fc7d1563e16248ab97caee428db0e6f931419a96849",
+  "scheme": "d-james",
+  "seed": "1d6c974b2717bdcdd379c91b3a10642311cf97f495ca094a7bf5ca3f3765666b",
+  "sig_bits": 48,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "d53fecbc5690"
+   },
+   {
+    "msg": "616263",
+    "sig": "bce332ae169e"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "c123dce340d6"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "a53c6bc80f4b"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0,
+   1
+  ],
+  "name": "toy-d-james-q5",
+  "params": {
+   "D": 6,
+   "a": 4,
+   "d": 1,
+   "m": 17,
+   "monomials": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "n": 21,
+   "ny": 24,
+   "q": 5,
+   "r": 2
+  },
+  "pk_len": 3628,
+  "pk_sha3_256": "f8992f92949080b65a8c17914a0dd1ab598d4dad66a4993a83421e5b261e198a",
+  "scheme": "d-james",
+  "seed": "cdb685610df81a406d2b5d61be6007e989e0cb448d67567815975d488dda3155",
+  "sig_bits": 49,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "57afe625ea8500"
+   },
+   {
+    "msg": "616263",
+    "sig": "1f71da22610201"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "a68f68b0113100"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "1a65521faa5c01"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0
+  ],
+  "name": "toy-james-q13",
+  "params": {
+   "D": 14,
+   "a": 4,
+   "d": 1,
+   "m": 14,
+   "monomials": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "n": 18,
+   "ny": null,
+   "q": 13,
+   "r": 1
+  },
+  "pk_len": 1112,
+  "pk_sha3_256": "f44af472a7daa648592ac0386f751ae4fab12d4484850f5d9ed96062eb74dc0a",
+  "scheme": "james",
+  "seed": "00f3084acc5cffd66f59fffa08676971226b150da4fb0887ae5722ac54d03cd8",
+  "sig_bits": 67,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "58e823cd367bcaeb02"
+   },
+   {
+    "msg": "616263",
+    "sig": "708977f8b87ca45803"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "bc25bef87204a3d700"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "ea5787bbef8c5a6b02"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0,
+   2,
+   3,
+   7
+  ],
+  "name": "toy-james-q2",
+  "params": {
+   "D": 5,
+   "a": 6,
+   "d": 2,
+   "m": 26,
+   "monomials": [
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ]
+   ],
+   "n": 32,
+   "ny": null,
+   "q": 2,
+   "r": 2
+  },
+  "pk_len": 1716,
+  "pk_sha3_256": "c9748fb5fbca4d861e31cf7e298929cc3f61449219fc42b67ec533de0aa08697",
+  "scheme": "james",
+  "seed": "e9d176ebd2d1c57da2e659f1031a59a1b7645c2b2349cea910d7b63314a56ffb",
+  "sig_bits": 32,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "1d1c126c"
+   },
+   {
+    "msg": "616263",
+    "sig": "b706eed7"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "081bd9e3"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "ab129733"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0,
+   1
+  ],
+  "name": "toy-james-q23",
+  "params": {
+   "D": 24,
+   "a": 4,
+   "d": 1,
+   "m": 12,
+   "monomials": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "n": 16,
+   "ny": null,
+   "q": 23,
+   "r": 1
+  },
+  "pk_len": 933,
+  "pk_sha3_256": "2d1f78f11bd1c5dc24194fd1ac9364ab25525162f74900a3380b37bdf7d144c0",
+  "scheme": "james",
+  "seed": "823d2819e8cad39308205dd47dc20d3d572d772b3fd11a60713d5dfe6ab5b89a",
+  "sig_bits": 73,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "be5287aebff67ba24d00"
+   },
+   {
+    "msg": "616263",
+    "sig": "d116dcaaa2edee8fb700"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "79fb4d95b103417ab600"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "5df0e83ea2e3e57bfc00"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0,
+   1,
+   3,
+   4
+  ],
+  "name": "toy-james-q4",
+  "params": {
+   "D": 17,
+   "a": 5,
+   "d": 2,
+   "m": 19,
+   "monomials": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     2
+    ]
+   ],
+   "n": 24,
+   "ny": null,
+   "q": 4,
+   "r": 2
+  },
+  "pk_len": 1425,
+  "pk_sha3_256": "0490664ccdcdfaa53657ab3a9cdad7ceb91c798ea787e6ca12a52a38ef04a17b",
+  "scheme": "james",
+  "seed": "91ae1c2dfd9ed004ee7054bee3b38f23ed0eb85681303d661a78065f1d234571",
+  "sig_bits": 48,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "6b8a4f42df18"
+   },
+   {
+    "msg": "616263",
+    "sig": "8b117b7dc9dd"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "6d9621804ca1"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "4674c333499b"
+   }
+  ]
+ },
+ {
+  "field_poly_support": [
+   0,
+   1
+  ],
+  "name": "toy-james-q5",
+  "params": {
+   "D": 6,
+   "a": 4,
+   "d": 1,
+   "m": 17,
+   "monomials": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "n": 21,
+   "ny": null,
+   "q": 5,
+   "r": 2
+  },
+  "pk_len": 1141,
+  "pk_sha3_256": "45e6dab01f7b591a23b89b0b5a443eb51d234650a42f0f0c5ba6a60e55bed3d4",
+  "scheme": "james",
+  "seed": "8421d28a3ef704a0b8c745e4554e4b4cd475081c699d393c7cf26aeda755a456",
+  "sig_bits": 49,
+  "signatures": [
+   {
+    "msg": "",
+    "sig": "15f25a86935501"
+   },
+   {
+    "msg": "616263",
+    "sig": "cbf66cab5b5a00"
+   },
+   {
+    "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "sig": "72777ad5ba4a01"
+   },
+   {
+    "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
+    "sig": "63671166248c00"
+   }
+  ]
+ }
+]
