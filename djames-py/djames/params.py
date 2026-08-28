@@ -106,10 +106,19 @@ class Params:
         return field_polynomial(self.q, self.n)
 
     def tag(self):
-        """Domain-separation tag: everything that changes the key derivation."""
-        return ("D-James/v1/%s/q%d/n%d/a%d/r%d/D%d/ny%s/mon%s"
+        """Domain-separation tag: everything that changes the key derivation.
+
+        Printable ASCII with an explicit grammar -- no language's `repr` -- so
+        that a second implementation can reproduce the exact bytes:
+
+            D-James/v1/<scheme>/q<q>/n<n>/a<a>/r<r>/D<D>/ny<ny>/mon<i>-<j>[.<i>-<j>]...
+
+        every number in plain decimal, no spaces, and ny = 0 for James.
+        """
+        mon = ".".join("%d-%d" % (i, j) for (i, j) in self.monomials)
+        return ("D-James/v1/%s/q%d/n%d/a%d/r%d/D%d/ny%d/mon%s"
                 % (self.scheme, self.q, self.n, self.a, self.r, self.D,
-                   self.ny, self.monomials)).encode()
+                   self.ny or 0, mon)).encode()
 
     def __repr__(self):
         return ("<%s %s q=%d m=%d n=%d a=%d ny=%s r=%d D=%d>"

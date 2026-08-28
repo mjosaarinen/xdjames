@@ -64,9 +64,13 @@ def sample_fq(xof: XOF, count: int, q: int) -> list:
     """`count` uniform elements of F_q, as ints in [0, q).
 
     For q a power of two the field elements are read straight off the bit
-    stream.  Otherwise we rejection-sample bytes from the largest multiple of
-    q below 256, which keeps the output exactly uniform and (for q <= 23)
-    wastes under 10% of the stream.
+    stream, consuming exactly ceil(count * log2 q / 8) bytes.  Otherwise we
+    rejection-sample one byte at a time from the largest multiple of q below
+    256, which keeps the output exactly uniform and (for q <= 23) wastes
+    under 10% of the stream.
+
+    Both paths consume a precisely defined number of stream bytes, which
+    matters because callers keep drawing from the same XOF afterwards.
     """
     k = _bits_per(q)
     if k:
@@ -79,16 +83,17 @@ def sample_fq(xof: XOF, count: int, q: int) -> list:
             acc >>= k
         return out
 
+    # One byte at a time.  Reading in larger chunks would give the same
+    # digits but would advance the stream by a chunk-size-dependent amount,
+    # so every later draw from the same XOF would diverge between two
+    # implementations that chunk differently.  Byte-at-a-time is the only
+    # choice that needs no further specification.
     limit = (256 // q) * q
     out = []
     while len(out) < count:
-        # Ask for a little more than the shortfall to keep the loop shallow.
-        chunk = xof.read(max(32, (count - len(out)) * 2))
-        for b in chunk:
-            if b < limit:
-                out.append(b % q)
-                if len(out) == count:
-                    break
+        b = xof.read(1)[0]
+        if b < limit:
+            out.append(b % q)
     return out
 
 

@@ -206,4 +206,11 @@ def roots(K, F, xof=None):
         return []
     if xof is None:
         xof = XOF(DOM_EDF)
-    return _split(K, G, xof)
+    found = _split(K, G, xof)
+    # Canonical order.  Equal-degree splitting hands roots back in an order
+    # that depends on the random delta it happened to draw, and the signer
+    # takes the first root satisfying the IP check -- so without a canonical
+    # order two conforming implementations could emit different (both valid)
+    # signatures for the same key and message.  Sort by the coordinate vector
+    # read as a base-q integer, c_{n-1} most significant.
+    return sorted(found, key=lambda r: tuple(reversed(K.coords(r))))

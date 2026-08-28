@@ -21,6 +21,10 @@ Written from the paper. The authors' SageMath proof-of-concept is archived in
 disagree, this follows the paper (see [Reading the
 paper](#reading-the-paper)).
 
+The normative description now lives in **[`../d-james-spec.md`](../d-james-spec.md)**,
+and a second implementation — [`../djames-rs/`](../djames-rs/), Rust, constant
+time where achievable — reproduces every vector here byte for byte.
+
 ## Status
 
 The algebra is complete and internally consistent — both schemes, all five base
@@ -142,6 +146,9 @@ implementation makes; all are documented at their definitions.
 | Linear / constant terms in `H` | absent from `H(X,Y)`; footnote 4 says the public system is homogeneous | absent, so the system is homogeneous. The notebook adds linear terms |
 | Zero signature | footnote 4: must be excluded | `verify` rejects `a = 0`; the signer skips the root `X = 0` |
 | Leading coefficient | "random" | drawn nonzero, so `deg H = D` exactly |
+| Sampling `F_q` | unspecified | power-of-two `q` reads exactly `⌈count·log₂q/8⌉` bytes; otherwise rejection sampling **one byte at a time**. Chunked reading gives the same digits but leaves the stream at a different offset, so every later draw would diverge — this had to be pinned before a second implementation could agree |
+| Root ordering | unspecified | roots sorted by coordinate vector as a base-`q` integer, `c_{n-1}` most significant. Equal-degree splitting returns them in an order that depends on the random `δ` it drew, and the signer takes the first root passing the IP check — so without a canonical order two conforming implementations emit different, both valid, signatures |
+| Parameter tag | n/a | explicit ASCII grammar (spec §2.3), not any language's `repr` |
 | Byte encoding | unspecified | **signatures**: the whole vector as one base-`q` integer — exactly `⌈n log₂q / 8⌉` bytes, and canonical, so each signature has exactly one accepted byte string. **public keys**: group packing (a single base conversion over millions of digits would be quadratic), ≥ 99% of the information-theoretic size, with every group validated on decode (`djames/codec.py`) |
 | Zero signature under James | specified only for homogeneous D-James | rejected for James too. A deliberate deviation: `P(0) = 0`, so `a = 0` could only ever verify for a message whose hash is all-zero — finding one costs `q^m`. Rejecting it is a strengthening with negligible completeness cost |
 

@@ -1,10 +1,13 @@
 # D-James / James -- see README.md, and ref/README.md for the upstream material.
 
-PY   ?= python3
-SAGE ?= sage
-PKG  := djames-py
+PY    ?= python3
+SAGE  ?= sage
+CARGO ?= cargo
+PKG   := djames-py
+RS    := djames-rs
 
-.PHONY: help test test-full kat fieldpolys demo clean
+.PHONY: help test test-full kat fieldpolys demo clean \
+        rs-test rs-test-full rs-bench rs-fmt rs-clippy check
 
 help:
 	@echo "targets:"
@@ -13,7 +16,14 @@ help:
 	@echo "  kat         regenerate every known-answer test vector             (~15 min)"
 	@echo "  fieldpolys  regenerate djames/fieldpoly.json from scratch"
 	@echo "  demo        run the authors' SageMath proof-of-concept (needs sage)"
-	@echo "  clean       remove Python and Sage temporary files"
+	@echo "  clean       remove Python, Sage and Rust build artifacts"
+	@echo ""
+	@echo "  rs-test      Rust unit tests + toy KAT vectors"
+	@echo "  rs-test-full Rust tests over all 20 real parameter sets   (~90 s)"
+	@echo "  rs-bench     Rust keygen/sign/verify timings"
+	@echo "  rs-fmt       rustfmt"
+	@echo "  rs-clippy    clippy, warnings denied"
+	@echo "  check        both implementations, on the same vectors"
 
 test:
 	cd $(PKG) && $(PY) -m unittest discover -s tests -v
@@ -32,6 +42,28 @@ fieldpolys:
 demo:
 	cd ref && $(SAGE) djames_demo.sage
 
+# --- Rust ------------------------------------------------------------------
+# The Rust crate reads djames-py/kat/*.rsp, so `make kat` must have run first
+# if the vectors ever change.
+
+rs-test:
+	cd $(RS) && $(CARGO) test --release
+
+rs-test-full:
+	cd $(RS) && $(CARGO) test --release -- --include-ignored
+
+rs-bench:
+	cd $(RS) && $(CARGO) run --release --example bench
+
+rs-fmt:
+	cd $(RS) && $(CARGO) fmt
+
+rs-clippy:
+	cd $(RS) && $(CARGO) clippy --release --all-targets -- -D warnings
+
+# Both implementations against the same known-answer vectors.
+check: test rs-test
+
 # Removes only regenerable scratch.  The checked-in artifacts -- kat/*.json
 # and djames/fieldpoly.json -- are left alone; use the targets above to
 # rebuild those deliberately.
@@ -49,6 +81,9 @@ clean:
 	@find . -name '*.spyx.c' -delete
 	@find . -name '*.spyx.so' -delete
 	@find . -name '.sage' -type d -prune -exec rm -rf {} +
+	@echo "cleaning Rust artifacts"
+	@find . -name 'target' -type d -prune -exec rm -rf {} +
+	@find . -name 'Cargo.lock' -delete
 	@echo "cleaning notebook checkpoints"
 	@find . -name '.ipynb_checkpoints' -type d -prune -exec rm -rf {} +
 	@echo "done"

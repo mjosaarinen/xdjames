@@ -15,6 +15,11 @@ venv/
 .coverage
 htmlcov/
 
+# --- Rust ---
+target/
+**/target/
+Cargo.lock
+
 # --- SageMath ---------------------------------------------------------
 # `sage foo.sage` preparses to a foo.sage.py sitting next to the original.
 *.sage.py
