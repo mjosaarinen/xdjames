@@ -6,7 +6,12 @@ use djames::symmetric::Xof;
 use std::time::Instant;
 
 fn main() {
-    for name in ["d-james-128-q2", "d-james-128-q5", "d-james-128-q13"] {
+    for name in [
+        "d-james-128-q2",
+        "d-james-128-q5",
+        "d-james-128-q13",
+        "d-james-128-q23",
+    ] {
         let p = params::by_name(name).unwrap();
         let k = Ext::new(p.q, p.n, p.fpoly);
         let mut x = Xof::new(&[b"prof"]);

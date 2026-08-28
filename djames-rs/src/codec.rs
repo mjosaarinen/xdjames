@@ -82,17 +82,6 @@ pub(crate) fn bn_bit(v: &[u64], i: usize) -> bool {
     v.get(i / 64).is_some_and(|w| (w >> (i % 64)) & 1 == 1)
 }
 
-/// `v -= 1`, assuming `v > 0`.
-pub(crate) fn bn_sub1(v: &mut [u64]) {
-    for w in v.iter_mut() {
-        let (r, borrow) = w.overflowing_sub(1);
-        *w = r;
-        if !borrow {
-            break;
-        }
-    }
-}
-
 /// `a < b` for little-endian limb vectors.
 pub(crate) fn bn_lt(a: &[u64], b: &[u64]) -> bool {
     let n = a.len().max(b.len());

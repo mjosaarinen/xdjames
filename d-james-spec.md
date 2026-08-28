@@ -85,7 +85,37 @@ map, given both as index pairs and as the resulting exponent.
 
 See §11 for the three places where these differ from the paper's tables.
 
-### 2.3 Parameter tag
+### 2.3 Toy sets
+
+**No security whatsoever.** These exist only so a test run can exercise every
+field and both schemes in seconds; they are listed because the shipped test
+vectors reference them by name. Note `r = 1` for `q = 13` and `q = 23`: signing
+costs `q^r` root-findings and 529 of them is not a unit test.
+
+| set | q | m | n | a | n_y | r | D | d | monomials |
+|---|---|---|---|---|---|---|---|---|---|
+| `toy-d-james-q2` | 2 | 26 | 32 | 6 | 48 | 2 | 5 | 2 | (0,1),(0,2) |
+| `toy-d-james-q4` | 4 | 19 | 24 | 5 | 24 | 2 | 17 | 2 | (0,0),(0,2) |
+| `toy-d-james-q5` | 5 | 17 | 21 | 4 | 24 | 2 | 6 | 1 | (0,0),(0,1) |
+| `toy-d-james-q13` | 13 | 14 | 18 | 4 | 16 | 1 | 14 | 1 | (0,0),(0,1) |
+| `toy-d-james-q23` | 23 | 12 | 16 | 4 | 14 | 1 | 24 | 1 | (0,0),(0,1) |
+| `toy-james-q2` | 2 | 26 | 32 | 6 | — | 2 | 5 | 2 | (0,1),(0,2) |
+| `toy-james-q4` | 4 | 19 | 24 | 5 | — | 2 | 17 | 2 | (0,0),(0,2) |
+| `toy-james-q5` | 5 | 17 | 21 | 4 | — | 2 | 6 | 1 | (0,0),(0,1) |
+| `toy-james-q13` | 13 | 14 | 18 | 4 | — | 1 | 14 | 1 | (0,0),(0,1) |
+| `toy-james-q23` | 23 | 12 | 16 | 4 | — | 1 | 24 | 1 | (0,0),(0,1) |
+
+Their field polynomials, by the rule of §3.2:
+
+| q | n | nonzero c_i |
+|---|---|---|
+| 2 | 32 | c₀=1, c₂=1, c₃=1, c₇=1 |
+| 4 | 24 | c₀=2, c₁=1, c₃=2, c₄=1 |
+| 5 | 21 | c₀=1, c₁=4 |
+| 13 | 18 | c₀=2 |
+| 23 | 16 | c₀=20, c₁=1 |
+
+### 2.4 Parameter tag
 
 Key derivation is bound to the full parameter set through a printable-ASCII
 tag with an explicit grammar (no language's `repr`):

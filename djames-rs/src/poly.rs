@@ -18,7 +18,7 @@
 //! time, so what leaks is the shape of the factorisation, not the field
 //! operations.
 
-use crate::codec::{bn_bit, bn_bitlen, bn_divmod_small, bn_pow, bn_sub1};
+use crate::codec::{bn_bit, bn_bitlen};
 use crate::gf::{Elem, Ext};
 use crate::symmetric::{sample_fq, Xof};
 use alloc::vec;
@@ -274,6 +274,52 @@ fn rand_nonzero(k: &Ext, xof: &mut Xof) -> Elem {
     }
 }
 
+/// `b^((q^n - 1)/2) mod g`, for odd `q`.
+///
+/// Square-and-multiply over that exponent costs about `1.5 * n * log2(q)`
+/// polynomial products. Factoring it instead as
+///
+/// ```text
+///   (q^n - 1)/2 = (q-1)/2 * (1 + q + q^2 + ... + q^(n-1))
+/// ```
+///
+/// turns the inner part into `prod_i b^(q^i)`, which is `n` Frobenius steps and
+/// `n` products -- roughly `2n` -- because raising to the `q` inside `K[X]/(g)`
+/// is a linear combination against the precomputed powers of `X^q`, not an
+/// exponentiation. For `q = 23` that is about 3x fewer products, and this is
+/// the dominant cost of equal-degree splitting.
+fn pow_half_order(k: &Ext, b: &Poly, g: &Poly) -> Poly {
+    let d = deg(g).max(0) as usize;
+    let mut xq: Poly = vec![k.zero(); k.q as usize];
+    xq.push(k.one());
+    let q = rem(k, &xq, g);
+    let mut qpow: Vec<Poly> = vec![vec![k.one()]];
+    for _ in 0..d {
+        let next = rem(k, &mul(k, qpow.last().unwrap(), &q), g);
+        qpow.push(next);
+    }
+    // one q-th power inside K[X]/(g)
+    let frob_step = |h: &Poly| -> Poly {
+        let mut out: Poly = Vec::new();
+        for (i, c) in h.iter().enumerate() {
+            if !k.is_zero(c) {
+                out = add(k, &out, &scal(k, &qpow[i], &k.frob(c, 1)));
+            }
+        }
+        out
+    };
+    let base = rem(k, b, g);
+    let mut cur = base.clone();
+    let mut acc = base;
+    for _ in 1..k.n {
+        cur = frob_step(&cur);
+        acc = rem(k, &mul(k, &acc, &cur), g);
+    }
+    // acc = b^((q^n - 1)/(q - 1)); finish with the small exponent
+    let e = [(k.q as u64 - 1) / 2];
+    powmod(k, &acc, &e, g)
+}
+
 /// Split a product of distinct linear factors into its roots.
 fn split(k: &Ext, g: &Poly, xof: &mut Xof, out: &mut Vec<Elem>) {
     if deg(g) == 1 {
@@ -293,11 +339,8 @@ fn split(k: &Ext, g: &Poly, xof: &mut Xof, out: &mut Vec<Elem>) {
             }
             gcd(k, g, &h)
         } else {
-            let mut e = bn_pow(k.q, k.n);
-            bn_sub1(&mut e);
-            bn_divmod_small(&mut e, 2); // (q^n - 1) / 2
             let base: Poly = vec![delta, k.one()];
-            let h = powmod(k, &base, &e, g);
+            let h = pow_half_order(k, &base, g);
             gcd(k, g, &sub(k, &h, &vec![k.one()]))
         };
         if deg(&c) > 0 && deg(&c) < deg(g) {

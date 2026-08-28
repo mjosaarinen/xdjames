@@ -36,8 +36,14 @@ fn main() {
         let (pk, sk) = keygen(p, &[7u8; 32]).unwrap();
         let tk = t.elapsed();
         let raw = pk.to_bytes();
+        // Signing costs q^r root-findings, so the large-q sets get fewer
+        // repetitions rather than several minutes each.
+        let n: u32 = if (p.q as u64).pow(p.r as u32) > 32 {
+            1
+        } else {
+            5
+        };
         let t = Instant::now();
-        let n = 5;
         let mut sig = Vec::new();
         for i in 0..n {
             sig = sign(p, &sk, format!("message {i}").as_bytes()).unwrap();

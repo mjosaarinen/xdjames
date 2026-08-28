@@ -1,12 +1,19 @@
 # djames-py
 
-A pure-Python reference implementation of **James** and **D-James**, the
-ultra-short multivariate signature schemes of
+The **golden model** for **James** and **D-James**, the ultra-short
+multivariate signature schemes of
 
 > Jacques Patarin and Alexandre Roullet,
 > *D-James: Ultra Short Multivariate Signatures*,
 > IACR Cryptology ePrint Archive **2026/1650**, <https://eprint.iacr.org/2026/1650>
 > (local copy: [`../ref/2026-1650.pdf`](../ref/README.md))
+
+Its purpose is exactly two things: **generate the test vectors**, and **be
+readable**. It is deliberately unoptimised — where a clearer formulation and a
+faster one disagree, this picks the clearer one, and performance numbers live
+with [`../djames-rs/`](../djames-rs/), which is the implementation built for
+speed. Both produce identical output on every vector; when they disagree, this
+one is not automatically right, but it is the one you read first.
 
 > [!WARNING]
 > **Do not use this for anything real.** It is not constant-time, has had no
@@ -101,9 +108,10 @@ minus-padding, and the randomness inside equal-degree splitting all come from
 are bit-deterministic functions of their inputs — which is what makes the test
 vectors reproducible. A secret key *is* its 32-byte seed.
 
-**Packed-integer field arithmetic.** A list-of-ints encoding of `K` is hopeless
-at `n = 390` with `n_y = 512`, so every vector over `F_q` lives inside a Python
-big integer and the bulk arithmetic is `int` operations running at C speed
+**Packed-integer field arithmetic.** The one place clarity gives ground: a
+list-of-ints encoding of `K` is not merely slow at `n = 390` with `n_y = 512`,
+it will not finish, so every vector over `F_q` lives inside a Python big
+integer and the bulk arithmetic is `int` operations running at C speed
 (`djames/ff.py`). Three backends:
 
 | q | representation | addition | product |
@@ -180,21 +188,21 @@ resolved in favour of the paper's own defining relations.
    | `james-128-q4` | 357,600 B | 346 k | 0.99 |
    | `james-128-q5` | 282,879 B | 274 k | 0.99 |
    | `james-128-q13` | 136,045 B | 130.9 k | 0.99 |
-   | `james-128-q23` | 100,356 B | 95.8 k | 0.98 |
+   | `james-128-q23` | 100,353 B | 95.8 k | 0.98 |
    | `james-256-q2` | 10,709,184 B | 10.2 M | 1.00 |
    | `james-256-q4` | 3,065,280 B | 2.92 M | 1.00 |
-   | `james-256-q5` | 2,417,283 B | 2.30 M | 1.00 |
-   | `james-256-q13` | 1,195,727 B | 1.13 M | 0.99 |
+   | `james-256-q5` | 2,417,277 B | 2.30 M | 1.00 |
+   | `james-256-q13` | 1,195,718 B | 1.13 M | 0.99 |
    | `james-256-q23` | 913,824 B | 857 k | 0.96 |
    | `d-james-128-q2` | 1,343,365 B | 1.04 M | 0.81 |
    | `d-james-128-q4` | 399,105 B | 163 k | **0.42** |
-   | `d-james-128-q5` | 315,765 B | 91.4 k | **0.30** |
+   | `d-james-128-q5` | 315,763 B | 91.4 k | **0.30** |
    | `d-james-128-q13` | 218,218 B | 225 k | 1.06 |
    | `d-james-128-q23` | 211,788 B | 240 k | 1.16 |
    | `d-james-256-q2` | 11,174,963 B | 8.82 M | 0.83 |
    | `d-james-256-q4` | 3,487,720 B | 3.02 M | 0.91 |
-   | `d-james-256-q5` | 2,969,307 B | 2.70 M | 0.95 |
-   | `d-james-256-q13` | 2,107,885 B | 2.28 M | 1.13 |
+   | `d-james-256-q5` | 2,969,301 B | 2.70 M | 0.95 |
+   | `d-james-256-q13` | 2,107,881 B | 2.28 M | 1.13 |
    | `d-james-256-q23` | 2,008,160 B | 2.36 M | 1.23 |
 
    * **`james-128-q2` is out by a factor of exactly 2.00**, against nine
@@ -217,35 +225,27 @@ We do not implement `|sig_short|`, the truncated variant: recovering the
 dropped symbols at verification time means running a hybrid Gröbner solve,
 which is out of scope for a reference implementation.
 
-## Performance
+## Cost
 
-Pure Python on one core. Verification is milliseconds everywhere.
+Timings live with the Rust implementation ([`../djames-rs/`](../djames-rs/)),
+which is the one built for speed; this one is built to be read. Two facts
+about the *schemes* are worth stating here, because they shape what vectors
+ship:
 
-| Set | q | n | keygen | sign | signature | public key | paper's `|PK|` |
-|---|---|---|---|---|---|---|---|
-| `d-james-128-q2` | 2 | 189 | 1.5 s | 1.3 s | **24 B** (189 bits) | 1,343,365 B | 1.04 M |
-| `james-128-q2` | 2 | 283 | 5.4 s | 5.8 s | 36 B (283 bits) | 1,285,952 B | 2.45 M |
-| `d-james-256-q2` | 2 | 390 | 25 s | 13 s | 49 B (390 bits) | 11,174,963 B | 8.82 M |
-| `james-256-q2` | 2 | 578 | 32 s | 8 s | 73 B (578 bits) | 10,709,184 B | 10.2 M |
-| `d-james-128-q5` | 5 | 94 | 2.0 s | — | 28 B (219 bits) | 315,765 B | 91.4 k |
-| `d-james-128-q23` | 23 | 74 | 0.9 s | — | 42 B (335 bits) | 211,788 B | 240 k |
-| `toy-d-james-q5` | 5 | 21 | 0.02 s | 0.8 s | 9 B | 3.6 kB | — |
-| `toy-d-james-q23` | 23 | 16 | 0.01 s | 9.5 s | 12 B | 2.5 kB | — |
-
-Every signature size matches the paper's `|sig_fast|` column exactly (bar the
-`q = 23` rounding noted above), which is a good independent confirmation of the
-parameter transcription.
-
-Key generation is fast at every parameter set. **Signing is not, for large
-`q`** — and this is the scheme, not the language. The IP modifier costs `q^r`
+Key generation is quick at every parameter set. **Signing is not, for large
+`q`** — and that is the scheme, not the language. The IP modifier costs `q^r`
 root-findings per salt (the paper: "the parameter `q^r` must remain small in
 practice"), and every set uses `r = 2`, so `q = 23` needs **529** degree-24
-root-findings per salt attempt. Over `F_2` that factor is only 4, which is why
+root-findings per salt attempt. Over `F_2` the factor is only 4, which is why
 the paper's own performance estimates (Table 9) cover the `F_2` sets alone.
 
 Accordingly the shipped vectors are: full signing vectors for every `F_2` set
 and every toy set, and key-generation vectors (public-key digests) for all
 twenty real sets.
+
+Every signature size matches the paper's `|sig_fast|` column exactly (bar the
+`q = 23` rounding noted above), which is a good independent confirmation of the
+parameter transcription.
 
 ## Layout
 

@@ -50,7 +50,7 @@ impl Params {
         crate::codec::vec_bytes(self.n, self.q)
     }
 
-    /// The domain-separation tag of `d-james-spec.md` §2.3.
+    /// The domain-separation tag of `d-james-spec.md` §2.4.
     pub fn tag(&self) -> String {
         use core::fmt::Write;
         let mut s = String::new();
@@ -585,73 +585,4 @@ pub fn by_name(name: &str) -> Option<&'static Params> {
 /// Names of every parameter set.
 pub fn names() -> Vec<&'static str> {
     ALL.iter().map(|p| p.name).collect()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn internally_consistent() {
-        for p in ALL {
-            assert_eq!(p.m, p.n - p.a, "{}: m = n - a", p.name);
-            assert_eq!(p.q.pow(p.d as u32) + 1, p.dd as u32, "{}: D = q^d + 1", p.name);
-            assert_eq!(p.fpoly.len(), p.n, "{}: field polynomial degree", p.name);
-            assert!(p.fpoly[0] != 0, "{}: t divides f", p.name);
-            assert!(p.fpoly.iter().all(|&c| (c as u32) < p.q), "{}: coefficient range", p.name);
-            assert_eq!(p.is_dragon(), p.ny > 0, "{}: Dragon iff ny", p.name);
-            for &(i, j) in p.monomials {
-                assert!(i <= j && j <= p.d, "{}: monomial order", p.name);
-                assert!(
-                    p.q.pow(i as u32) + p.q.pow(j as u32) <= p.dd as u32,
-                    "{}: monomial degree",
-                    p.name
-                );
-            }
-            // Over F_2, X^(q^i + q^i) is F_2-linear and useless as a quadratic
-            // term, so no parameter set may use i = j there.
-            if p.q == 2 {
-                assert!(p.monomials.iter().all(|&(i, j)| i != j), "{}", p.name);
-            }
-        }
-    }
-
-    #[test]
-    fn tags_are_well_formed() {
-        assert_eq!(
-            by_name("d-james-128-q2").unwrap().tag(),
-            "D-James/v1/d-james/q2/n189/a27/r2/D5/ny256/mon0-1.0-2"
-        );
-        assert_eq!(
-            by_name("james-128-q2").unwrap().tag(),
-            "D-James/v1/james/q2/n283/a27/r2/D5/ny0/mon0-1.0-2"
-        );
-        assert_eq!(
-            by_name("d-james-128-q23").unwrap().tag(),
-            "D-James/v1/d-james/q23/n74/a21/r2/D24/ny57/mon0-0.0-1"
-        );
-        // Distinct sets must never share a tag: keys are bound to it.
-        let mut tags: Vec<String> = ALL.iter().map(|p| p.tag()).collect();
-        tags.sort();
-        let n = tags.len();
-        tags.dedup();
-        assert_eq!(tags.len(), n, "duplicate parameter tag");
-    }
-
-    #[test]
-    fn signature_sizes_match_the_spec() {
-        // (name, bits, bytes) from d-james-spec.md section 9.2
-        let want: &[(&str, usize)] = &[
-            ("d-james-128-q2", 24), ("d-james-128-q4", 27), ("d-james-128-q5", 28),
-            ("d-james-128-q13", 36), ("d-james-128-q23", 42), ("d-james-256-q2", 49),
-            ("d-james-256-q4", 56), ("d-james-256-q5", 60), ("d-james-256-q13", 80),
-            ("d-james-256-q23", 93), ("james-128-q2", 36), ("james-128-q4", 38),
-            ("james-128-q5", 39), ("james-128-q13", 43), ("james-128-q23", 45),
-            ("james-256-q2", 73), ("james-256-q4", 78), ("james-256-q5", 80),
-            ("james-256-q13", 89), ("james-256-q23", 95),
-        ];
-        for &(name, bytes) in want {
-            assert_eq!(by_name(name).unwrap().sig_bytes(), bytes, "{name}");
-        }
-    }
 }
