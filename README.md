@@ -21,6 +21,27 @@ verification needs a hybrid Gröbner solve; that is not implemented here, so
 > community." Nothing here has had a security review, and root finding is not
 > constant time.
 
+## Security target
+
+The `*-128-*` parameter sets are intended to target **EUF-CMA security at
+NIST security category 2**: an existential forgery under an adaptive
+chosen-message attack should require resources comparable to collision search
+on a 256-bit hash function.
+
+This is a **provisional design claim**, not a proof or an independent security
+assessment. It relies on the paper's estimates for hybrid, MinRank,
+differential, and generic attacks; some of those estimates are heuristic and
+the schemes have not yet received substantial third-party cryptanalysis. NIST's
+baseline definition is EUF-CMA, with up to `2^64` chosen-message signing queries
+in its estimation model; this repository currently makes no SUF-CMA claim.
+Canonical decoding removes byte-encoding malleability, but odd-characteristic
+James is algebraically not strongly unforgeable because negating a valid
+nonzero signature produces a second valid signature for the same message.
+
+See the [NIST PQC security criteria](https://csrc.nist.gov/Projects/Post-Quantum-Cryptography/Post-Quantum-Cryptography-Standardization/Evaluation-Criteria/Security-(Evaluation-Criteria))
+and the warning above before interpreting the parameter names as established
+security levels.
+
 ## What is here
 
 | | |
