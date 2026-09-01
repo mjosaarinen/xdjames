@@ -1,7 +1,7 @@
 """Generate known-answer tests.
 
-  python3 tools/gen_kat.py toy       -> kat/toy.json     (all toy sets, seconds)
-  python3 tools/gen_kat.py q2        -> kat/q2.json      (real F_2 sets, minutes)
+  python3 tools/gen_kat.py toy       -> kat/toy.json     (all toy sets)
+  python3 tools/gen_kat.py q2        -> kat/q2.json      (real F_2 sets)
   python3 tools/gen_kat.py keygen    -> kat/keygen.json  (pk digests, all sets)
   python3 tools/gen_kat.py <name>    -> kat/<name>.json
 """
@@ -15,7 +15,7 @@ from djames import kat, params  # noqa: E402
 KATDIR = os.path.join(os.path.dirname(__file__), "..", "kat")
 
 GROUPS = {
-    # Everything, fast: exercises all five fields and both schemes.
+    # Complete cross-field coverage for both schemes.
     "toy": (params.names("toy-"), True, 4),
     # The paper's headline sets.  Signing over F_2 costs q^r = 4 root-findings.
     "q2": (["d-james-128-q2", "james-128-q2",

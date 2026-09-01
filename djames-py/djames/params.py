@@ -9,14 +9,9 @@ Two families:
            number of public equations from the hash length.  The public system
            is homogeneous and verification checks P(a, b) = 0.
 
-Two places where the paper's tables are internally inconsistent; both are
-resolved here in favour of the defining relations, and flagged in README.md:
-
-  * Table 4, q = 4 lists m = 180 with n = 223, a = 53, but the table's own
-    header defines m = n - a = 170.  We take m = 170.
-  * Table 3, q = 4 lists the central monomials as "X^3, X^17".  X^3 is not of
-    the form X^(q^i + q^j) over F_4, and every other row of every table uses
-    X^2 = X^(q^0 + q^0) as its low monomial.  We read it as X^2.
+Confirmed details reflected below: Dragon uses d+1 linear maps; the q=4
+monomials are X^5 and X^17; and the 256-bit q=4 set has
+(m, a, n) = (170, 53, 223).
 """
 
 import json
@@ -68,9 +63,10 @@ class Params:
         if q ** d + 1 != D:
             raise ValueError("D = %d is not of the form q^d + 1" % D)
         self.d = d
-        for (i, j) in monomials:
-            assert 0 <= i <= j <= d and q ** i + q ** j <= D, (name, i, j)
         self.monomials = list(monomials)
+        assert len(self.monomials) == len(set(self.monomials)), name
+        for (i, j) in self.monomials:
+            assert 0 <= i <= j <= d and q ** i + q ** j <= D, (name, i, j)
         assert self.m > 0 and self.r >= 1
 
     # Number of public-key coefficients, and the exact sizes they imply.
@@ -131,10 +127,11 @@ def _log2q_bits(q):
     return math.log2(q)
 
 
-# The low monomial is X^(q^0 + q^0) = X^2 except over F_2, where that is
-# X^(q^1) -- a linear map, useless as a quadratic term -- so F_2 uses X^3.
+# In characteristic 2 (q=2 and q=4 here), a diagonal q-polynomial monomial is
+# additive and therefore F_2-linear. Use X^(q^0 + q^1), namely X^3 for q=2
+# and X^5 for q=4, instead of X^2 in those cases.
 def _mon(q, d):
-    lo = (0, 1) if q == 2 else (0, 0)
+    lo = (0, 1) if q in (2, 4) else (0, 0)
     return [lo, (0, d)]
 
 

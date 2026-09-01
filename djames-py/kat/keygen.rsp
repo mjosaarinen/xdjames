@@ -20,7 +20,7 @@ count = 3
 name = d-james-128-q4
 seed = 576a9baea4fd4981f95f2836235d758afb22c81a8fe12f06c30cd772d010ccba
 pk_len = 399105
-pk_sha3_256 = 213e0d300955ad26d0e2eaf06c1a2126de89c41f44b07f1dd80539ba691a9a7b
+pk_sha3_256 = 50b8979d09428af533be040cc77d42017c35069b837c6ed7977f3d3270fbda0c
 
 count = 4
 name = d-james-128-q5
@@ -50,7 +50,7 @@ count = 8
 name = d-james-256-q4
 seed = c148905ef289cb12ccb64af940d4a4f429abd926a75f3cec22088804f4c8ff0a
 pk_len = 3487720
-pk_sha3_256 = 72fa099947ecacd89ac6e7c4fdb46b7cdd4dce45016cd0546e01c6513c1b4fce
+pk_sha3_256 = 4025a02f8793b66cece363a754cc1d780c1ce06b468581ee6b07c5b0a62f5676
 
 count = 9
 name = d-james-256-q5
@@ -80,7 +80,7 @@ count = 13
 name = james-128-q4
 seed = a961a9ec7dbf5a56b51dfb57b08399567f4fef75cfbc6cd8725009c3d5c45c73
 pk_len = 357600
-pk_sha3_256 = 4b856e4b17825dbd0aad6ae6e500b96c543894de9beb4f6a635fb886ef4b6266
+pk_sha3_256 = 746506639119482ad4e1e71ac2c267368f1c133e1b61ebd6bcecc63e8514231a
 
 count = 14
 name = james-128-q5
@@ -110,7 +110,7 @@ count = 18
 name = james-256-q4
 seed = c210ec6f1e5256ebf09fd67c46fc969f22631c5d41acbe5a086bd8680983ca0e
 pk_len = 3065280
-pk_sha3_256 = c2fc240b5ad96138fee912f9d7b2780de08808074efc2b8f8febcb3b12a23cd6
+pk_sha3_256 = 90e04beb940b3ad7358b57598b76c22c16cfe4a035bde70f9647bfd07aad3663
 
 count = 19
 name = james-256-q5

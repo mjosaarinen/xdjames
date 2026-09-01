@@ -31,7 +31,7 @@ assert!(verify(p, &pk, b"hello", &sig));
 
 ```console
 $ cargo test --release                  # unit tests + toy KAT vectors
-$ cargo test --release -- --ignored     # + all 20 real parameter sets
+$ cargo test --release -- --include-ignored  # + all 20 real parameter sets
 $ cargo run --release --example bench
 ```
 
@@ -81,29 +81,24 @@ the largest partial sum is `n(q-1)²`, far below `2^32` — then reduce once.
 ## Performance
 
 The headline table is in the [root README](../README.md#performance);
-`cargo run --release --example bench` reproduces it and
+`cargo run --release --example bench` prints fresh measurements and
 `cargo run --release --example prof` breaks a signature down into its parts.
 
-Two things the profiler changed:
+Two optimisations shape the signing cost:
 
 **The Frobenius schedule is not one algorithm.** Computing `X^(q^n) mod F` by
 doubling the Frobenius exponent costs `O(log n * D^3)`; iterating it costs
 `O(n * D^2)`. Which wins flips with the parameter set — the ladder for
 `q = 2` (`D = 5`, `n = 189`), the linear walk for `q = 13` and `q = 23`, where
-`D` reaches 24 and `n` is only 74. `poly::x_pow_qn` picks per call. That halved
-root finding at `q = 13` and cut the toy test suite from 12.4 s to 4.8 s.
+`D` reaches 24 and `n` is only 74. `poly::x_pow_qn` selects per call.
 
-**Equal-degree splitting over odd `F_q`** raised `X + delta` to
-`(q^n - 1)/2`, about `n log2 q` bits of square-and-multiply. Factoring the
-exponent as `(q-1)/2 * (1 + q + ... + q^(n-1))` turns the inner part into
+**Equal-degree splitting over odd `F_q`** factors the exponent
+`(q^n - 1)/2` as `(q-1)/2 * (1 + q + ... + q^(n-1))`, turning the inner part into
 `prod_i b^(q^i)` — `n` Frobenius steps and `n` products, because raising to the
 `q` inside `K[X]/(g)` is a linear combination against precomputed powers of
-`X^q`, not an exponentiation. Roughly halves signing for `q = 5, 13, 23`.
+`X^q`, not a generic exponentiation.
 
-Neither changes any output: the root *set* is algorithm-independent and the
-ordering is canonical, so the known-answer vectors pin both rewrites.
-
-The remaining `F_2` cost centre is the portable carry-less multiply, which is
+The main `F_2` cost centre is the portable carry-less multiply, which is
 where a hardware `pclmulqdq` / `vmull_p64` path would pay for itself.
 
 ## Constant time

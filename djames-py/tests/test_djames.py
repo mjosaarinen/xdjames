@@ -17,6 +17,24 @@ FIELDS = (2, 4, 5, 13, 23)
 KATDIR = os.path.join(os.path.dirname(__file__), "..", "kat")
 
 
+class TestParameters(unittest.TestCase):
+    def test_confirmed_parameters(self):
+        for name in params.names():
+            p = params.get(name)
+            if p.q == 4:
+                self.assertEqual(p.monomials, [(0, 1), (0, 2)], name)
+                self.assertEqual(p.tag().decode().rsplit("/", 1)[-1],
+                                 "mon0-1.0-2", name)
+
+        p = params.get("d-james-256-q4")
+        self.assertEqual((p.m, p.a, p.n), (170, 53, 223))
+
+    def test_monomials_are_distinct(self):
+        with self.assertRaises(AssertionError):
+            params.Params("duplicate", "james", 5, 8, 2, 1, 6,
+                          [(0, 0), (0, 0)])
+
+
 class TestBaseField(unittest.TestCase):
     def test_axioms(self):
         for q in FIELDS:
@@ -246,7 +264,7 @@ class TestKAT(unittest.TestCase):
         for fn in sorted(os.listdir(KATDIR)) if os.path.isdir(KATDIR) else []:
             if not fn.endswith(".json"):
                 continue
-            # The big F_2 vectors take minutes to re-derive; opt in explicitly.
+            # The real-parameter vectors are long-running; opt in explicitly.
             if fn != "toy.json" and not os.environ.get("DJAMES_FULL_KAT"):
                 continue
             for vec in kat.load(os.path.join(KATDIR, fn)):

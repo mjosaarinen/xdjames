@@ -3,24 +3,6 @@
 Provenance for everything in this directory. Nothing here is our own work
 except `djames_demo.sage`, which is a mechanical extraction (see below).
 
-## `2026-1650.pdf`
-
-**D-James: Ultra Short Multivariate Signatures** — Jacques Patarin,
-Alexandre Roullet (Thales DIS France SAS; Université Paris-Saclay, UVSQ,
-CNRS, Laboratoire de mathématiques de Versailles).
-
-- IACR Cryptology ePrint Archive, Report **2026/1650** — <https://eprint.iacr.org/2026/1650>
-- 29 pages, letter, produced by pdfTeX-1.40.27; PDF `CreationDate` 2026-08-27 19:07:24 EEST
-- `sha256: adc6a119b3efc5bfbaf3ace546c4fc2bdcb9af4856ef468b169918230de114fb`
-
-Defines two schemes: **James** (= HFE⁻_IP) and **D-James** (= HFE⁻_IP plus
-*Dragon* terms, i.e. bilinear couplings between the HFE variable `X` and the
-hash variables `Y`). Recommended parameter sets are Tables 3–4 (D-James) and
-Tables 5–6 (James); attack complexities are Tables 7–8.
-
-Note the authors' own caveat (§8): they *do not* recommend deployment until
-the constructions have had further public scrutiny.
-
 ## `HFE_companion_notebook.ipynb`
 
 The authors' proof-of-concept, cited in §7.1 of the paper.
@@ -80,8 +62,7 @@ Confirmed working on 2026-08-28 (SageMath 10.7):
 
 ## Relationship to `../djames-py/`
 
-`djames-py` is an independent clean-room implementation written from the
-**paper**, not from the notebook: pure-Python, stdlib-only, SHAKE256 for all
-hashing and pseudorandomness, and deterministic test vectors. It follows the
-paper wherever the notebook and the paper disagree; those divergences are
-listed in `../djames-py/README.md`.
+`djames-py` is an independent clean-room implementation written from the paper
+and the normative repository specification, not from the notebook. It is
+pure-Python, stdlib-only, uses SHAKE256 for hashing and pseudorandomness, and
+produces deterministic test vectors.

@@ -166,7 +166,7 @@
    "monomials": [
     [
      0,
-     0
+     1
     ],
     [
      0,
@@ -179,26 +179,26 @@
    "r": 2
   },
   "pk_len": 4161,
-  "pk_sha3_256": "6bd20c4796539d2f0bd91e130119e800fb819d3a7d053e1759121c2ab6762842",
+  "pk_sha3_256": "22ca5d5ff4bd21f724547b3ee52c4c91fc8652506a285babde9f52d196da164e",
   "scheme": "d-james",
   "seed": "1d6c974b2717bdcdd379c91b3a10642311cf97f495ca094a7bf5ca3f3765666b",
   "sig_bits": 48,
   "signatures": [
    {
     "msg": "",
-    "sig": "cb0bc18f83b0"
+    "sig": "19eae81c369b"
    },
    {
     "msg": "616263",
-    "sig": "4fae9b24555e"
+    "sig": "923499619170"
    },
    {
     "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
-    "sig": "8b3127eddb4d"
+    "sig": "2f09575cad8a"
    },
    {
     "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
-    "sig": "7f48c2145cdb"
+    "sig": "bb63bfff2103"
    }
   ]
  },
@@ -419,7 +419,7 @@
    "monomials": [
     [
      0,
-     0
+     1
     ],
     [
      0,
@@ -432,26 +432,26 @@
    "r": 2
   },
   "pk_len": 1425,
-  "pk_sha3_256": "9b4cc8c704cfc670e76b70bddd446aad7086a84b29c242d7f0555afb234300b4",
+  "pk_sha3_256": "356c1b66c1188dc658d4246dc021ae63e875072b403377af05cca835e6d62937",
   "scheme": "james",
   "seed": "91ae1c2dfd9ed004ee7054bee3b38f23ed0eb85681303d661a78065f1d234571",
   "sig_bits": 48,
   "signatures": [
    {
     "msg": "",
-    "sig": "04f9ead4d187"
+    "sig": "ada745a13051"
    },
    {
     "msg": "616263",
-    "sig": "5a3862a00f44"
+    "sig": "7b6b120a5016"
    },
    {
     "msg": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
-    "sig": "da63472c13db"
+    "sig": "be60a7f667cf"
    },
    {
     "msg": "442d4a616d6573206b6e6f776e2d616e73776572207465737420766563746f72",
-    "sig": "1533b9d448f4"
+    "sig": "bb3ce86cfbe4"
    }
   ]
  },

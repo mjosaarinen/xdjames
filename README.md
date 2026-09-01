@@ -49,7 +49,7 @@ security levels.
 | **[`d-james-spec.md`](d-james-spec.md)** | The specification. The paper gives the mathematics; this pins the hash, the field polynomials, the sampling order and the wire format — everything two implementations must agree on. |
 | **[`djames-rs/`](djames-rs/)** | Rust. The one built for speed, portable and constant-time where achievable. Zero dependencies, `no_std`. |
 | **[`djames-py/`](djames-py/)** | Python. The golden model: generates the test vectors and is meant to be read. Deliberately unoptimised, stdlib only. |
-| **[`ref/`](ref/)** | Upstream material — the paper, the authors' SageMath proof-of-concept, and provenance for both. |
+| **[`ref/`](ref/)** | The authors' SageMath proof-of-concept and its provenance. |
 
 The two implementations were written against the specification and agree on
 every shipped test vector, byte for byte. Coverage is uneven by design, because
@@ -84,10 +84,10 @@ MinRank-S attack that broke GeMSS and a *minus* modifier that publishes only
 signature variables and the hash variables:
 
 ```
-H(X, y) = Σ λ_ij X^(q^i + q^j)        HFE core
-        + Σ L_k(y) · X^(q^k)          Dragon      ← D-James only
-        + Σ M[k][j] · z_j · X^(q^k)   IP, bilinear
-        + Σ G[i][j] · z_i z_j         IP, quadratic
+H(X, y) = Σ_(i,j)∈monomials λ_ij X^(q^i + q^j)          HFE core
+        + Σ_(0≤k≤d) L_k(y) · X^(q^k)                    Dragon      ← D-James only
+        + Σ_(0≤k<d) Σ_(0≤j<r) M[k][j] · z_j · X^(q^k)  IP, bilinear
+        + Σ_(0≤i≤j<r) G[i][j] · z_i z_j                IP, quadratic
 ```
 
 Fixing the message hash `y` turns each `L_k(y)` into a *constant* of `K`, so
@@ -135,27 +135,27 @@ serialized lengths.
 Ten further *toy* sets (`toy-*`) exist for tests only — no security whatsoever;
 see [spec §2.3](d-james-spec.md).
 
-Every signature size matches the paper's `|sig_fast|` column exactly, bar the
-`q = 23` rows where the paper reports 334 and 737 bits against `⌈n log₂ 23⌉` of
-335 and 738. The public-key column is a different story: it reproduces the
-paper's James tables to within a few percent but not its D-James ones — see
-[`djames-py/README.md`](djames-py/README.md#discrepancies-in-the-papers-tables).
+Signature sizes are the exact encoded lengths, and public-key sizes are
+measured serialized lengths. The authors report that their independently
+recomputed size tables agree with these measurements almost exactly.
 
 ## Performance
 
-[`djames-rs/`](djames-rs/), single-threaded, on a 24-core x86-64 box. Sizes are
-measured serialized lengths. `cargo run --release --example bench`.
+[`djames-rs/`](djames-rs/), measured 2026-09-01 on an Intel Core i7-12700
+(12 cores, 20 hardware threads) with active desktop workloads. The benchmark
+itself is single-threaded. Sizes are measured serialized lengths. From the
+repository root, run `make rs-bench` for fresh measurements.
 
 | set | q | n | keygen | sign | verify | signature | public key |
 |---|---|---|---|---|---|---|---|
-| `d-james-128-q2` | 2 | 189 | 244 ms | 93 ms | **131 µs** | **24 B** | 1.34 MB |
-| `james-128-q2` | 2 | 283 | 332 ms | 226 ms | 58 µs | 36 B | 1.29 MB |
-| `d-james-256-q2` | 2 | 390 | 1.4 s | 1.2 s | 447 µs | 49 B | 11.2 MB |
-| `james-256-q2` | 2 | 578 | 2.6 s | 2.8 s | 321 µs | 73 B | 10.7 MB |
-| `d-james-128-q4` | 4 | 105 | 603 ms | 1.1 s | 3.2 ms | 27 B | 399 kB |
-| `d-james-128-q5` | 5 | 94 | 704 ms | 1.2 s | 4.5 ms | 28 B | 316 kB |
-| `d-james-128-q13` | 13 | 77 | 302 ms | 2.9 s | 2.7 ms | 36 B | 218 kB |
-| `d-james-128-q23` | 23 | 74 | 254 ms | 244 s | 7.4 ms | 42 B | 212 kB |
+| `d-james-128-q2` | 2 | 189 | 250.8 ms | 144.8 ms | **191.2 µs** | **24 B** | 1.34 MB |
+| `james-128-q2` | 2 | 283 | 461.5 ms | 338.4 ms | 73.7 µs | 36 B | 1.29 MB |
+| `d-james-256-q2` | 2 | 390 | 2.0 s | 1.8 s | 623.1 µs | 49 B | 11.2 MB |
+| `james-256-q2` | 2 | 578 | 3.7 s | 4.1 s | 360.3 µs | 73 B | 10.7 MB |
+| `d-james-128-q4` | 4 | 105 | 895.0 ms | 1.5 s | 4.8 ms | 27 B | 399 kB |
+| `d-james-128-q5` | 5 | 94 | 957.1 ms | 1.7 s | 6.2 ms | 28 B | 316 kB |
+| `d-james-128-q13` | 13 | 77 | 415.6 ms | 4.0 s | 3.6 ms | 36 B | 218 kB |
+| `d-james-128-q23` | 23 | 74 | 341.8 ms | 329.1 s | 10.2 ms | 42 B | 212 kB |
 
 Two things that column is telling you.
 
@@ -168,21 +168,23 @@ small in practice", and its own performance estimates (Table 9) cover the `F_2`
 sets alone. If you want D-James to be usable, `q = 2` is the row to look at.
 
 **The `F_2` sets are the practical ones anyway** — they carry the headline
-24-byte signature, and they verify in about 130 µs against a megabyte-scale
+24-byte signature, and they verify in about 190 µs against a megabyte-scale
 key.
 
 Two caveats worth stating. The carry-less multiply is the portable
 nibble-split construction rather than `pclmulqdq`, which costs roughly 5–10× on
 the `F_2` sets; an intrinsic path would slot in behind a `target_feature` gate
-without touching anything else. And these are single-sample timings on a busy
-machine, not a careful benchmark — treat them as orders of magnitude.
+without touching anything else. This was one invocation on a busy machine:
+key generation ran once per set, while signing and verification were averaged
+over five repetitions when `q^r ≤ 32` and sampled once otherwise. Treat the
+results as orders of magnitude, not a careful benchmark.
 
 
 ## File map
 
 ```
 d-james-spec.md          the specification: parameters, fields, pseudocode, wire format
-Makefile                 make check / test / kat / bench / clean  (make help)
+Makefile                 make check / test / kat / rs-bench / clean  (make help)
 
 djames-rs/               Rust, performance and constant time
   src/keccak.rs            Keccak-f[1600], SHAKE256, SHA3-256
@@ -210,20 +212,26 @@ djames-py/               Python, the golden model
   kat/*.json, *.rsp        the test vectors, in both formats
   tools/                   regenerate vectors, field polynomials, params.rs
 
-ref/                     upstream: the paper, the authors' Sage notebook, provenance
+ref/                     authors' Sage notebook, extracted demo, provenance
 ```
 
-## Reading the paper
+## Confirmed design details
 
-Three of the paper's statements are self-contradictory, and the specification
-resolves each in favour of the reading the rest of the paper supports. All
-three would benefit from the authors' confirmation:
+The implementation uses the parameter details confirmed by the authors:
 
-1. **Dragon index range** — the text names `L_0, …, L_{d−1}` but the displayed
-   sum runs over `q^i ≤ D`, which includes `i = d`.
-2. **`q = 4` central monomials** — all four `q = 4` rows give `X³, X¹⁷`, but
-   over `F_4` there is no `X³ = X^(q^i + q^j)`.
-3. **`m` for `q = 4` at 256-bit** — Table 4 lists `m = 180` with `n = 223`,
-   `a = 53`, and Table 8 repeats it, against the header's own `m = n − a`.
+- Dragon has indices `k ≤ d`, hence `d + 1` linear maps and target rank
+  `d + 1` throughout the paper's §4.
+- The `q = 4` central monomials are `X⁵, X¹⁷`, represented by index pairs
+  `(0,1),(0,2)`.
+- The 256-bit `q = 4` parameters are `m = 170`, `a = 53`, `n = 223`.
+- Serialized sizes are computed directly from the encodings.
 
-Details in [spec §11](d-james-spec.md).
+The normative definitions are in
+[spec §11](d-james-spec.md#11-confirmed-design-details).
+
+### Open design question
+
+The IP bilinear family uses `k < d`, following the paper's requirement that
+its degree in `X` be less than `q^d`. The authors' reference notebook instead
+uses `k ≤ d`; the intended range still needs author confirmation. Changing it
+would change every public key and test vector.

@@ -70,7 +70,7 @@ impl Params {
         crate::codec::vec_bytes(self.n, self.q)
     }
 
-    /// The domain-separation tag of `d-james-spec.md` §2.3.
+    /// The domain-separation tag of `d-james-spec.md` §2.4.
     pub fn tag(&self) -> String {
         use core::fmt::Write;
         let mut s = String::new();

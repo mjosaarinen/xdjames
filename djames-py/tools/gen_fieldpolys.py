@@ -9,8 +9,8 @@ import json, os, sys, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from djames.ff import find_irreducible, ExtField
 
-# (q, n) over every James / D-James parameter set in Tables 3-6, plus the
-# toy sets used by the fast tests.
+# (q, n) over every James / D-James parameter set in Tables 3-6, the toy sets,
+# and the n=48 reference/demo field.
 PAIRS = [
     (2, 189), (2, 283), (2, 390), (2, 578),
     (4, 105), (4, 149), (4, 223), (4, 309),

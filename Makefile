@@ -11,15 +11,15 @@ RS    := djames-rs
 
 help:
 	@echo "targets:"
-	@echo "  test        test suite at toy parameters, re-deriving kat/toy.json  (~7 min)"
+	@echo "  test        test suite at toy parameters, re-deriving kat/toy.json"
 	@echo "  test-full   as above, also re-deriving kat/q2.json and kat/keygen.json"
-	@echo "  kat         regenerate every known-answer test vector             (~15 min)"
+	@echo "  kat         regenerate every known-answer test vector"
 	@echo "  fieldpolys  regenerate djames/fieldpoly.json from scratch"
 	@echo "  demo        run the authors' SageMath proof-of-concept (needs sage)"
 	@echo "  clean       remove Python, Sage and Rust build artifacts"
 	@echo ""
 	@echo "  rs-test      Rust unit tests + toy KAT vectors"
-	@echo "  rs-test-full Rust tests over all 20 real parameter sets   (~90 s)"
+	@echo "  rs-test-full Rust tests over all 20 real parameter sets"
 	@echo "  rs-bench     Rust keygen/sign/verify timings"
 	@echo "  rs-fmt       rustfmt"
 	@echo "  rs-clippy    clippy, warnings denied"

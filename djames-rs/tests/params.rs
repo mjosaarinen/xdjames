@@ -20,7 +20,12 @@ fn internally_consistent() {
             p.name
         );
         assert_eq!(p.is_dragon(), p.ny > 0, "{}: Dragon iff ny", p.name);
-        for &(i, j) in p.monomials {
+        for (index, &(i, j)) in p.monomials.iter().enumerate() {
+            assert!(
+                !p.monomials[..index].contains(&(i, j)),
+                "{}: duplicate monomial",
+                p.name
+            );
             assert!(i <= j && j <= p.d, "{}: monomial order", p.name);
             assert!(
                 p.q.pow(i as u32) + p.q.pow(j as u32) <= p.dd as u32,
@@ -28,9 +33,9 @@ fn internally_consistent() {
                 p.name
             );
         }
-        // Over F_2, X^(q^i + q^i) is F_2-linear and useless as a quadratic
-        // term, so no parameter set may use i = j there.
-        if p.q == 2 {
+        // In characteristic 2 (q=2 and q=4 here), a diagonal q-polynomial
+        // monomial is additive and F_2-linear, so these sets use no i = j term.
+        if p.q == 2 || p.q == 4 {
             assert!(p.monomials.iter().all(|&(i, j)| i != j), "{}", p.name);
         }
     }
@@ -50,6 +55,12 @@ fn tags_are_well_formed() {
         by_name("d-james-128-q23").unwrap().tag(),
         "D-James/v1/d-james/q23/n74/a21/r2/D24/ny57/mon0-0.0-1"
     );
+    assert_eq!(
+        by_name("d-james-128-q4").unwrap().tag(),
+        "D-James/v1/d-james/q4/n105/a21/r2/D17/ny128/mon0-1.0-2"
+    );
+    let q4_256 = by_name("d-james-256-q4").unwrap();
+    assert_eq!((q4_256.m, q4_256.a, q4_256.n), (170, 53, 223));
     // Distinct sets must never share a tag: keys are bound to it.
     let mut tags: Vec<String> = ALL.iter().map(|p| p.tag()).collect();
     tags.sort();

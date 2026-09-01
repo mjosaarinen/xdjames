@@ -58,12 +58,12 @@ map, given both as index pairs and as the resulting exponent.
 | set | q | m | n | a | n_y | r | D | d | monomials |
 |---|---|---|---|---|---|---|---|---|---|
 | `d-james-128-q2` | 2 | 162 | 189 | 27 | 256 | 2 | 5 | 2 | (0,1),(0,2) = X³, X⁵ |
-| `d-james-128-q4` | 4 | 84 | 105 | 21 | 128 | 2 | 17 | 2 | (0,0),(0,2) = X², X¹⁷ |
+| `d-james-128-q4` | 4 | 84 | 105 | 21 | 128 | 2 | 17 | 2 | (0,1),(0,2) = X⁵, X¹⁷ |
 | `d-james-128-q5` | 5 | 73 | 94 | 21 | 111 | 2 | 6 | 1 | (0,0),(0,1) = X², X⁶ |
 | `d-james-128-q13` | 13 | 56 | 77 | 21 | 70 | 2 | 14 | 1 | (0,0),(0,1) = X², X¹⁴ |
 | `d-james-128-q23` | 23 | 53 | 74 | 21 | 57 | 2 | 24 | 1 | (0,0),(0,1) = X², X²⁴ |
 | `d-james-256-q2` | 2 | 324 | 390 | 66 | 512 | 2 | 5 | 2 | (0,1),(0,2) |
-| `d-james-256-q4` | 4 | 170 | 223 | 53 | 256 | 2 | 17 | 2 | (0,0),(0,2) |
+| `d-james-256-q4` | 4 | 170 | 223 | 53 | 256 | 2 | 17 | 2 | (0,1),(0,2) |
 | `d-james-256-q5` | 5 | 153 | 206 | 53 | 221 | 2 | 6 | 1 | (0,0),(0,1) |
 | `d-james-256-q13` | 13 | 118 | 171 | 53 | 139 | 2 | 14 | 1 | (0,0),(0,1) |
 | `d-james-256-q23` | 23 | 110 | 163 | 53 | 114 | 2 | 24 | 1 | (0,0),(0,1) |
@@ -73,34 +73,35 @@ map, given both as index pairs and as the resulting exponent.
 | set | q | m | n | a | r | D | d | monomials |
 |---|---|---|---|---|---|---|---|---|
 | `james-128-q2` | 2 | 256 | 283 | 27 | 2 | 5 | 2 | (0,1),(0,2) |
-| `james-128-q4` | 4 | 128 | 149 | 21 | 2 | 17 | 2 | (0,0),(0,2) |
+| `james-128-q4` | 4 | 128 | 149 | 21 | 2 | 17 | 2 | (0,1),(0,2) |
 | `james-128-q5` | 5 | 111 | 132 | 21 | 2 | 6 | 1 | (0,0),(0,1) |
 | `james-128-q13` | 13 | 70 | 91 | 21 | 2 | 14 | 1 | (0,0),(0,1) |
 | `james-128-q23` | 23 | 57 | 78 | 21 | 2 | 24 | 1 | (0,0),(0,1) |
 | `james-256-q2` | 2 | 512 | 578 | 66 | 2 | 5 | 2 | (0,1),(0,2) |
-| `james-256-q4` | 4 | 256 | 309 | 53 | 2 | 17 | 2 | (0,0),(0,2) |
+| `james-256-q4` | 4 | 256 | 309 | 53 | 2 | 17 | 2 | (0,1),(0,2) |
 | `james-256-q5` | 5 | 221 | 274 | 53 | 2 | 6 | 1 | (0,0),(0,1) |
 | `james-256-q13` | 13 | 139 | 192 | 53 | 2 | 14 | 1 | (0,0),(0,1) |
 | `james-256-q23` | 23 | 114 | 167 | 53 | 2 | 24 | 1 | (0,0),(0,1) |
 
-See §11 for the three places where these differ from the paper's tables.
+See §11 for the confirmed details most likely to be misread when implementing
+the paper.
 
 ### 2.3 Toy sets
 
-**No security whatsoever.** These exist only so a test run can exercise every
-field and both schemes in seconds; they are listed because the shipped test
-vectors reference them by name. Note `r = 1` for `q = 13` and `q = 23`: signing
-costs `q^r` root-findings and 529 of them is not a unit test.
+**No security whatsoever.** These exist only so tests can exercise every field
+and both schemes without production-size parameters; they are listed because
+the shipped test vectors reference them by name. Note `r = 1` for `q = 13` and
+`q = 23`: signing costs `q^r` root-findings and 529 of them is not a unit test.
 
 | set | q | m | n | a | n_y | r | D | d | monomials |
 |---|---|---|---|---|---|---|---|---|---|
 | `toy-d-james-q2` | 2 | 26 | 32 | 6 | 48 | 2 | 5 | 2 | (0,1),(0,2) |
-| `toy-d-james-q4` | 4 | 19 | 24 | 5 | 24 | 2 | 17 | 2 | (0,0),(0,2) |
+| `toy-d-james-q4` | 4 | 19 | 24 | 5 | 24 | 2 | 17 | 2 | (0,1),(0,2) |
 | `toy-d-james-q5` | 5 | 17 | 21 | 4 | 24 | 2 | 6 | 1 | (0,0),(0,1) |
 | `toy-d-james-q13` | 13 | 14 | 18 | 4 | 16 | 1 | 14 | 1 | (0,0),(0,1) |
 | `toy-d-james-q23` | 23 | 12 | 16 | 4 | 14 | 1 | 24 | 1 | (0,0),(0,1) |
 | `toy-james-q2` | 2 | 26 | 32 | 6 | — | 2 | 5 | 2 | (0,1),(0,2) |
-| `toy-james-q4` | 4 | 19 | 24 | 5 | — | 2 | 17 | 2 | (0,0),(0,2) |
+| `toy-james-q4` | 4 | 19 | 24 | 5 | — | 2 | 17 | 2 | (0,1),(0,2) |
 | `toy-james-q5` | 5 | 17 | 21 | 4 | — | 2 | 6 | 1 | (0,0),(0,1) |
 | `toy-james-q13` | 13 | 14 | 18 | 4 | — | 1 | 14 | 1 | (0,0),(0,1) |
 | `toy-james-q23` | 23 | 12 | 16 | 4 | — | 1 | 24 | 1 | (0,0),(0,1) |
@@ -536,39 +537,27 @@ implementations of this document.
 
 ---
 
-## 11. Divergences from ePrint 2026/1650
+## 11. Confirmed design details
 
-Three of the paper's statements are self-contradictory. Each is resolved here
-in favour of the reading the rest of the paper supports; all three would
-benefit from the authors' confirmation.
+The following author-confirmed details are normative:
 
-1. **Dragon index range.** The text names the maps `L_0, …, L_{d−1}` (so
-   `k < d`), and §4.2's MinRank argument wants only the first `d` rows of `H̃`
-   nonzero — but the displayed sum runs over `q^i ≤ D = q^d + 1`, which
-   includes `i = d`. **We use `k ≤ d`**, following the displayed sum and the
-   authors' notebook. Note `H̃`'s `λ` block already occupies row `d` via
-   `q^d + q^0 ≤ D`, so the "first `d` rows" claim is loose either way.
+1. **Dragon index range.** `k ≤ d`: exactly `d + 1` linear maps
+   `L_0, …, L_d`, with target rank `d + 1` throughout the paper's §4.
+2. **`q = 4` central monomials.** `X⁵` and `X¹⁷`, represented by index
+   pairs `(0,1)` and `(0,2)`.
+3. **`q = 4` at 256 bits.** `m = 170`, `a = 53`, and `n = 223`.
+4. **Sizes.** Signature sizes are the exact values in §9.2. Public-key sizes
+   are determined by the coefficient counts and encoding in §9.3.
 
-2. **`q = 4` central monomials.** All four `q = 4` rows (Tables 3, 4, 5, 6)
-   give `X³, X¹⁷`. Over `F_4` there is no `X³ = X^(q^i + q^j)`. Every other row
-   of every table uses `X² = X^(q⁰+q⁰)` as its low monomial — `F_2` alone uses
-   `X³`, because `X²` is `F_2`-linear there and useless as a quadratic term.
-   **We read it as `X²`.**
+### 11.1 Open design question: IP bilinear range
 
-3. **`m` for `q = 4` at 256-bit.** Table 4 lists `m = 180` with `n = 223`,
-   `a = 53`, and Table 8 repeats the triple, so it is not an isolated typo. The
-   table header defines `m = n − a = 170` and every other row satisfies that
-   exactly. **We use `m = 170`**, which resolves the defining relation rather
-   than instantiating the literal row; only the authors can say whether `m` or
-   `a` is the wrong entry.
+This specification uses `k < d` for the IP bilinear family, following the
+paper's requirement that its degree in `X` be less than `q^d`. The authors'
+reference notebook instead uses `k ≤ d`; the intended range has not yet been
+author-confirmed. Changing it would change every public key and test vector.
 
 Not implemented: `|sig_short|`, the truncated variant, whose verification
 requires a hybrid Gröbner solve.
-
-The paper also reports `|sig_fast|` of 334 and 737 bits for `q = 23` where
-`⌈n log₂ 23⌉` is 335 and 738; every other entry matches. And its `|PK|` column
-reproduces for James but not for D-James — see
-[`djames-py/README.md`](djames-py/README.md).
 
 ---
 

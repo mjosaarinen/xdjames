@@ -104,8 +104,8 @@ fn toy_vectors() {
     run(include_str!("../../djames-py/kat/toy.rsp"), true);
 }
 
-/// The real F_2 parameter sets, with signatures. Minutes, so opt in:
-/// `cargo test --release -- --ignored`
+/// The real F_2 parameter sets, with signatures. Long-running, so opt in:
+/// `cargo test --release -- --include-ignored`
 #[test]
 #[ignore]
 fn q2_vectors() {
