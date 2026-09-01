@@ -141,21 +141,21 @@ recomputed size tables agree with these measurements almost exactly.
 
 ## Performance
 
-[`djames-rs/`](djames-rs/), measured 2026-09-01 on an Intel Core i7-12700
-(12 cores, 20 hardware threads) with active desktop workloads. The benchmark
-itself is single-threaded. Sizes are measured serialized lengths. From the
-repository root, run `make rs-bench` for fresh measurements.
+[`djames-rs/`](djames-rs/), measured 2026-09-01 on an AMD Ryzen AI 9 HX 370
+(24 hardware threads) with active desktop workloads. The benchmark itself is
+single-threaded. Sizes are measured serialized lengths. From the repository
+root, run `make rs-bench` for fresh measurements.
 
 | set | q | n | keygen | sign | verify | signature | public key |
 |---|---|---|---|---|---|---|---|
-| `d-james-128-q2` | 2 | 189 | 250.8 ms | 144.8 ms | **191.2 µs** | **24 B** | 1.34 MB |
-| `james-128-q2` | 2 | 283 | 461.5 ms | 338.4 ms | 73.7 µs | 36 B | 1.29 MB |
-| `d-james-256-q2` | 2 | 390 | 2.0 s | 1.8 s | 623.1 µs | 49 B | 11.2 MB |
-| `james-256-q2` | 2 | 578 | 3.7 s | 4.1 s | 360.3 µs | 73 B | 10.7 MB |
-| `d-james-128-q4` | 4 | 105 | 895.0 ms | 1.5 s | 4.8 ms | 27 B | 399 kB |
-| `d-james-128-q5` | 5 | 94 | 957.1 ms | 1.7 s | 6.2 ms | 28 B | 316 kB |
-| `d-james-128-q13` | 13 | 77 | 415.6 ms | 4.0 s | 3.6 ms | 36 B | 218 kB |
-| `d-james-128-q23` | 23 | 74 | 341.8 ms | 329.1 s | 10.2 ms | 42 B | 212 kB |
+| `d-james-128-q2` | 2 | 189 | 230.9 ms | 92.7 ms | **150.4 µs** | **24 B** | 1.34 MB |
+| `james-128-q2` | 2 | 283 | 341.3 ms | 226.4 ms | 63.4 µs | 36 B | 1.29 MB |
+| `d-james-256-q2` | 2 | 390 | 1.4 s | 1.2 s | 556.0 µs | 49 B | 11.2 MB |
+| `james-256-q2` | 2 | 578 | 2.6 s | 2.7 s | 313.7 µs | 73 B | 10.7 MB |
+| `d-james-128-q4` | 4 | 105 | 614.4 ms | 986.6 ms | 3.3 ms | 27 B | 399 kB |
+| `d-james-128-q5` | 5 | 94 | 708.2 ms | 1.2 s | 4.5 ms | 28 B | 316 kB |
+| `d-james-128-q13` | 13 | 77 | 303.7 ms | 2.9 s | 2.7 ms | 36 B | 218 kB |
+| `d-james-128-q23` | 23 | 74 | 250.0 ms | 243.4 s | 7.3 ms | 42 B | 212 kB |
 
 Two things that column is telling you.
 
@@ -168,7 +168,7 @@ small in practice", and its own performance estimates (Table 9) cover the `F_2`
 sets alone. If you want D-James to be usable, `q = 2` is the row to look at.
 
 **The `F_2` sets are the practical ones anyway** — they carry the headline
-24-byte signature, and they verify in about 190 µs against a megabyte-scale
+24-byte signature, and they verify in about 150 µs against a megabyte-scale
 key.
 
 Two caveats worth stating. The carry-less multiply is the portable
